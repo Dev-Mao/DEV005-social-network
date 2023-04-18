@@ -9,7 +9,6 @@ export const loginApp = (email, password, loginError) => {
     .catch((error) => {
       password.value = '';
       // Posibles errores de autenticación
-      console.log(error.code);
       if (error.code === 'auth/wrong-password') {
         loginError.textContent = 'Contraseña incorrecta';
       } else if (error.code === 'auth/user-not-found') {

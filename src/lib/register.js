@@ -7,7 +7,7 @@ export const signupApp = (email, password, registerError) => {
     })
     .catch((error) => {
       password.value = '';
-      console.log(error.code);
+      // Posibles errores de registro
       if (error.code === 'auth/wrong-password') {
         registerError.textContent = 'Contraseña incorrecta';
       } else if (error.code === 'auth/email-already-in-use') {
