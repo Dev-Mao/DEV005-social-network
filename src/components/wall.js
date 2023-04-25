@@ -116,17 +116,39 @@ const saveAPost = (textPost) => {
 function wall(navigateTo) {
   const containerPost = document.createElement('section');
   containerPost.classList.add('container-post');
+
+  // contenerdor de titulo y btn cerrar seción
+  const divContent = document.createElement('div');
+  divContent.classList.add('div-content');
+
+  const divGroupHeader = document.createElement('div');
+  divGroupHeader.classList.add('div-header');
+
+  // Título Playverse
+  const nameTitle = document.createElement('h1');
+  nameTitle.classList.add('post-title');
+  nameTitle.textContent = 'PLAYVERSE';
+
+  divContent.append(divGroupHeader);
+
+  // Botón para cerrar sesión
+  const btnLogout = document.createElement('button');
+  btnLogout.classList.add('btn-logout');
+  btnLogout.textContent = 'cerrar sesión';
+  btnLogout.addEventListener('click', navigateToLoginAfterLogout(navigateTo));
+
+  divGroupHeader.append(nameTitle, btnLogout);
+
   // Formulario de crear publicación
   const formPost = document.createElement('form');
   formPost.classList.add('form-post');
 
-  const labelPost = document.createElement('label');
-  labelPost.classList.add('label-post');
-  labelPost.textContent = '¿Qué quieres compartir?';
-  labelPost.setAttribute('for', 'text-post');
+  const divGroup = document.createElement('div');
+  divGroup.classList.add('div-group');
 
   const textPost = document.createElement('textarea');
   textPost.id = 'text-post';
+  textPost.placeholder = '¿Qué quieres compartir?';
 
   // Botón para publicar
   const btnPost = document.createElement('button');
@@ -135,19 +157,15 @@ function wall(navigateTo) {
   btnPost.type = 'submit';
   formPost.addEventListener('submit', saveAPost(textPost));
 
-  formPost.append(labelPost, textPost, btnPost);
+  divGroup.append(btnPost, textPost);
+  formPost.appendChild(divGroup);
 
   // Contenedor donde van los post
   const containerPublic = document.createElement('div');
   containerPublic.classList.add('container-public');
   showPublics(containerPublic);
-  // Botón para cerrar sesión
-  const btnLogout = document.createElement('button');
-  btnLogout.classList.add('btn-logout');
-  btnLogout.textContent = 'cerrar sesión';
-  btnLogout.addEventListener('click', navigateToLoginAfterLogout(navigateTo));
 
-  containerPost.append(formPost, btnLogout, containerPublic);
+  containerPost.append(divContent, formPost, containerPublic);
 
   return containerPost;
 }
