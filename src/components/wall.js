@@ -182,13 +182,11 @@ function wall(navigateTo) {
   const formPost = document.createElement('form');
   formPost.classList.add('form-post');
 
-  const labelPost = document.createElement('label');
-  labelPost.classList.add('label-post');
-  labelPost.textContent = '¿Qué quieres compartir?';
-  labelPost.setAttribute('for', 'text-post');
-
+  const divGroup = document.createElement('div');
+  divGroup.classList.add('div-group');
   const textPost = document.createElement('textarea');
   textPost.id = 'text-post';
+  textPost.placeholder = '¿Qué quieres compartir?';
 
   // Botón para publicar
   const btnPost = document.createElement('button');
@@ -196,8 +194,8 @@ function wall(navigateTo) {
   btnPost.textContent = 'Publicar';
   btnPost.type = 'submit';
   formPost.addEventListener('submit', saveAPost(textPost));
-
-  formPost.append(labelPost, textPost, btnPost);
+  divGroup.append(btnPost, textPost);
+  formPost.appendChild(divGroup);
 
   // Contenedor donde van los post
   const containerPublic = document.createElement('div');
