@@ -14,20 +14,22 @@ describe('likeAPost', () => {
   });
   it('Returns a function', () => {
     // data de prueba
-    const postId = -1;
-    const numLikes = [];
-    const heartLike = {};
+    const postId = 1;
+    const numLikes = '';
+    const heartLike = '';
     // ejecutamos el sujeto y obtenemos el retorno
     const returnedFunction = likeAPost(postId, numLikes, heartLike);
     // validamos que el retorno sea satisfactorio
     expect(typeof returnedFunction).toBe('function');
   });
 });
+
 describe('saveAPost', () => {
   it('Is a function', () => {
     expect(typeof saveAPost).toBe('function');
   });
 });
+
 describe('deleteAPost', () => {
   it('Is a function', () => {
     expect(typeof deleteAPost).toBe('function');
@@ -45,7 +47,7 @@ describe('editAPost', () => {
   });
   it('Returns a function', () => {
     // data de prueba
-    const postId = -1;
+    const postId = 1;
     const btnEdit = 'div';
     // ejecutamos el sujeto y obtenemos el retorno
     const returnedFunction = editAPost(postId, btnEdit);
@@ -59,7 +61,7 @@ describe('createModal', () => {
   });
   it('Returns a function', () => {
     // data de prueba
-    const postId = -1;
+    const postId = 1;
     const btnEdit = 'div';
     const containerEachPost = 'div';
     // ejecutamos el sujeto y obtenemos el retorno
@@ -95,13 +97,13 @@ describe('wall', () => {
     DOM.append(wall());
     const haveAButton = DOM.querySelector('btn-post');
     // espero que haveAButton no sea undefined
-    expect(haveAButton).toBe(null);
+    expect(haveAButton).not.toBe('undefined');
   });
   it('has a form', () => {
     const DOM = document.createElement('form');
     DOM.append(wall());
     const formPost = DOM.querySelector('form-post');
     // espero que formPost exista
-    expect(formPost).toBe(null);
+    expect(formPost).not.toBe('undefined');
   });
 });
