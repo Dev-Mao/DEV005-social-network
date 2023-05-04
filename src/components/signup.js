@@ -2,7 +2,7 @@ import { labelMovement } from '../lib/index.js';
 import { signupApp } from '../lib/register.js';
 import { loginWithGoogle } from '../lib/loginWithGoogle.js';
 
-// Define una función manejadora para el evento de envío de formulario de registro
+// Función manejadora para el evento de envío de formulario de registro
 export const signupFormSubmit = (inputEmail, inputPassword, registerError) => {
   const handleSignupFormSubmit = (event) => {
     event.preventDefault();
@@ -73,6 +73,7 @@ export function signup(navigateTo) {
   const registerError = document.createElement('div');
   registerError.classList.add('link-text');
   registerError.id = 'register-error';
+
   // Botón Iniciar Sesión
   const btnregister = document.createElement('button');
   btnregister.classList.add('btn-register');
@@ -98,16 +99,11 @@ export function signup(navigateTo) {
   linkText.append(links);
 
   // Añadir elementos del form
-  registerForm.append(
-    // userNameContainer,
-    emailContainer,
-    passwordContainer,
-    registerError,
-    btnregister,
-    linkContainer,
-  );
+  registerForm.append(emailContainer, passwordContainer, registerError, btnregister, linkContainer);
+
   // Agrega el evento de envío de formulario a la función manejadora
   registerForm.addEventListener('submit', signupFormSubmit(inputEmail, inputPassword, registerError));
+
   // O regístrate con
   const textContainer = document.createElement('div');
   textContainer.classList.add('content-text');
@@ -128,14 +124,14 @@ export function signup(navigateTo) {
   googleContainer.append(btnGoogle);
 
   // Contenedor imagen google
-
   const imgGoogle = document.createElement('img');
   imgGoogle.src = 'images/google.png';
   imgGoogle.classList.add('google-icon');
   imgGoogle.alt = 'Logo Google';
   btnGoogle.prepend(imgGoogle);
+
   // Añadir elementos a la section
   registerContainer.append(registerForm, textContainer, googleContainer);
-  // Darle movimiento a los labels
+
   return registerContainer;
 }

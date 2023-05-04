@@ -1,7 +1,8 @@
 import { labelMovement } from '../lib/index.js';
 import { loginApp } from '../lib/authentication.js';
 import { loginWithGoogle } from '../lib/loginWithGoogle.js';
-// Define una función manejadora para el evento de envío de formulario de inicio de sesión
+
+// Función manejadora para el evento de envío de formulario de inicio de sesión
 export const loginFormSubmit = (inputEmail, inputPassword, loginError) => {
   const handleLoginFormSubmit = (event) => {
     event.preventDefault();
@@ -87,9 +88,11 @@ export function login(navigateTo) {
   links.classList.add('links');
   links.href = '';
   links.textContent = 'Regístrate';
+
   // Se agrega evento click para navegar a registro
   links.addEventListener('click', navigateToSignup(navigateTo));
   linkText.append(links);
+
   // Mensaje de error
   const loginError = document.createElement('div');
   loginError.classList.add('link-text');
@@ -122,15 +125,13 @@ export function login(navigateTo) {
   googleContainer.append(btnGoogle);
 
   // Contenedor imagen google
-
   const imgGoogle = document.createElement('img');
   imgGoogle.src = 'images/google.png';
   imgGoogle.classList.add('google-icon');
   imgGoogle.alt = 'Logo Google';
   btnGoogle.prepend(imgGoogle);
-
   // Añadir elementos a la section
   loginContainer.append(loginForm, textContainer, googleContainer);
-  // Darle  movimiento a los labels
+
   return loginContainer;
 }

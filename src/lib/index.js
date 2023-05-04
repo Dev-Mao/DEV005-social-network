@@ -1,4 +1,5 @@
 // Movimiento de los labels
+
 export function labelMovement(input, label) {
   input.addEventListener('click', () => {
     label.classList.add('active');

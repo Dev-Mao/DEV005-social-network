@@ -10,7 +10,6 @@ const auth = getAuth(firebaseApp);
 
 const root = document.getElementById('root');
 
-// root.append(register());
 const routes = [
   { path: '/', component: login },
   { path: '/signup', component: signup },
@@ -22,8 +21,7 @@ const defaultRoute = '/';
 
 export function navigateTo(hash) {
   const route = routes.find((routeFind) => routeFind.path === hash);
-
-  if (route && route.component) {
+  if (route && route.component) { // caso que si tengo una ruta y tambien la tengo importada
     window.history.pushState(
       {},
       route.path,
@@ -32,12 +30,11 @@ export function navigateTo(hash) {
     if (root.firstChild) {
       root.removeChild(root.firstChild);
     }
-    root.appendChild(route.component(navigateTo));
+    root.appendChild(route.component(navigateTo)); // callback;
   } else {
     navigateTo('/error');
   }
 }
-
 window.onpopstate = () => {
   navigateTo(window.location.pathname);
 };
