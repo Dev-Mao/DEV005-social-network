@@ -64,7 +64,7 @@ describe('loginFormSubmit', () => {
 describe('navigateToSignup', () => {
   it('Should call preventDefault and navigate to /signup', () => {
     // Crear mocks de las dependencias
-    const navigateToMock = jest.fn();
+    const navigateToMock = jest.fn();// acabo de mockear esta sera un simulcion
 
     // Llamar a la función con los mocks
     const preventRefresh = navigateToSignup(navigateToMock);
