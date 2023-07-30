@@ -17,7 +17,7 @@ const auth = getAuth(firebaseApp);
 let id = '';
 let editStatus = false;
 
-// Guardar publicación
+// Guardar
 export const saveAPost = (textPost) => {
   const handleSavePost = (event) => {
     event.preventDefault();
@@ -34,6 +34,20 @@ export const saveAPost = (textPost) => {
   }; return handleSavePost;
 };
 
+// Eliminar publicación
+export const deleteAPost = (postId, modalContainer) => {
+  const handleDeleateAPost = async (event) => {
+    event.preventDefault();
+    await deletePost(postId);
+    // Obtener el contenedor del post que se va a eliminar
+    const containerEachPost = document.getElementById(postId);
+    // Eliminar el contenedor del post de la pantalla
+    containerEachPost.remove();
+    modalContainer.remove();
+  };
+  return handleDeleateAPost;
+};
+
 // Editar una publicación
 export const editAPost = (postId, btnDelete) => {
   const handleEditAPost = async (event) => {
@@ -43,40 +57,61 @@ export const editAPost = (postId, btnDelete) => {
     const doc = await getOnePost(postId);
     const post = doc.data();
     // Rellenar el campo de publicación
-    const formText = document.querySelector('#text-post');// id del texarea
+    const formText = document.querySelector('#text-post');
     formText.value = post.text;
     // Cambiar el estado a verdadero
     editStatus = true;
     id = postId;
-    btnDelete.disabled = true; // Deshabilita el btn de eliminar
-    const btnUpdate = document.querySelector('.btn-post'); // btn compartir
-    btnUpdate.textContent = 'Guardar cambios'; // cambia btn compartir por btn guardar cambios
+    // Cambiar el nombre del botón de publicación
+    btnDelete.disabled = true;
+    const btnUpdate = document.querySelector('.btn-post');
+    btnUpdate.textContent = 'Guardar cambios';
 
     btnUpdate.addEventListener('click', () => {
+      btnDelete.disabled = false;
       btnUpdate.textContent = 'Compartir';
-      btnDelete.disabled = false;// Habilita el btn de eliminar
     });
   };
   return handleEditAPost;
 };
 
-// Eliminar publicación
-export const deleteAPost = (postId) => {
-  const handleDeleateAPost = async (event) => {
+// Dar like a publicación
+export const likeAPost = (postId, numLikes, heartLike) => {
+  const handleLikeAPost = async (event) => {
     event.preventDefault();
-    await deletePost(postId);
-    // Obtener el contenedor del post que se va a eliminar
-    const containerEachPost = document.getElementById(postId);
-    // Eliminar el contenedor del post de la pantalla
-    containerEachPost.remove();
+    // Obtener la publicación por su id
+    await getOnePost(postId)
+      .then(async (doc) => {
+        const getLikes = doc.data();
+        // Obtener un arreglo de los likes de la publicación
+        const countLikes = getLikes.likes;
+        // Consultar email del usuario actual
+        const currentUserEmail = auth.currentUser.email;
+        // Verificar si la lista contiene al usuario actual
+        // Si lo contiene remueve el me gusta, si no lo tiene, lo añade
+        if (countLikes.includes(currentUserEmail)) {
+          removeLike(postId, currentUserEmail);
+          heartLike.classList.remove('liked');
+        } else {
+          updateLike(postId, currentUserEmail);
+          heartLike.classList.add('liked');
+        }
+        // Obtener el post actualizado del servidor
+        const updatedPost = await getOnePost(postId);
+        // Obtener el nuevo número de likes
+        const updatedLikes = updatedPost.data().likes;
+        // Actualizar el elemento de interfaz de usuario con el nuevo número de likes
+        numLikes.textContent = updatedLikes.length;
+      });
   };
-  return handleDeleateAPost;
+  return handleLikeAPost;
 };
 
 // Crear modal
 export const createModal = (postId, containerEachPost, btnEdit) => {
   const handleCreateModal = (event) => {
     btnEdit.disabled = true;
+
     event.preventDefault();
     const modalContainer = document.createElement('div');
     modalContainer.classList.add('modal');
@@ -119,38 +154,6 @@ export const userCheck = (doc) => {
     return true;
   }
   return false;
-};
-
-// Dar like a publicación
-export const likeAPost = (postId, numLikes, heartLike) => {
-  const handleLikeAPost = async (event) => {
-    event.preventDefault();
-    // Obtener la publicación por su id
-    await getOnePost(postId)
-      .then(async (doc) => {
-        const getLikes = doc.data();
-        // Obtener un arreglo de los likes de la publicación
-        const countLikes = getLikes.likes;
-        // Consultar email del usuario actual
-        const currentUserEmail = auth.currentUser.email;
-        // Verificar si la lista contiene al usuario actual
-        // Si lo contiene remueve el me gusta, si no lo tiene, lo añade
-        if (countLikes.includes(currentUserEmail)) {
-          removeLike(postId, currentUserEmail);
-          heartLike.classList.remove('liked');
-        } else {
-          updateLike(postId, currentUserEmail);
-          heartLike.classList.add('liked');
-        }
-        // Obtener el post actualizado del servidor
-        const updatedPost = await getOnePost(postId);
-        // Obtener el nuevo número de likes
-        const updatedLikes = updatedPost.data().likes;
-        // Actualizar el elemento de interfaz de usuario con el nuevo número de likes
-        numLikes.textContent = updatedLikes.length;
-      });
-  };
-  return handleLikeAPost;
 };
 
 // Mostrar publicaciones
